@@ -104,3 +104,6 @@ venv.bak/
 *.json
 #doplhpin
 .directory
+
+#filestoanalyze
+fileToAnalyze.py
