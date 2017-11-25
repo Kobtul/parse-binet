@@ -73,6 +73,8 @@ def initializeTempHourDict(tempDict):
     initializeNumberFeatureAsServerAsClient(tempDict['hoursummary'],'TotalNumberOfTransferedData')
 
     initializeDictFeatureAsServerAsClient (tempDict, 'DictOfConnections')
+    initializeDictFeatureAsServerAsClient (tempDict, 'DictOfConnectionsTCP')
+    initializeDictFeatureAsServerAsClient (tempDict, 'DictOfConnectionsUDP')
 
     initializeDictFeatureAsServerAsClient (tempDict, 'DictNumberOfDistinctCountries')
     initializeDictFeatureAsServerAsClient (tempDict, 'DictNumberOfDistinctOrganizations')
@@ -160,12 +162,14 @@ def addFeaturesForIP(clientorserver,ipDict,ipTarget,lineDict,dur,protocol,source
                                whoiscache.get_organization_of_ip (ipTarget), 1)
 
         addFeaturesToDict(ipFeaturesTemp, clientorserver +'DictClassBnetworksEstablished', classB, 1)
-        if protocol == 'tcp':
-            addFeaturesToDict(ipFeaturesTemp, clientorserver + 'DictClassBnetworksTCPEstablished', classB, 1)
-        elif protocol == 'udp':
-            addFeaturesToDict(ipFeaturesTemp, clientorserver + 'DictClassBnetworksUDPEstablished', classB, 1)
         addFeaturesToDict (ipFeaturesTemp, clientorserver + 'DictOfConnectionsEstablished', ipTarget, 1)
 
+        if protocol == 'tcp':
+            addFeaturesToDict(ipFeaturesTemp, clientorserver + 'DictClassBnetworksTCPEstablished', classB, 1)
+            addFeaturesToDict(ipFeaturesTemp, clientorserver + 'DictOfConnectionsTCPEstablished', ipTarget, 1)
+        elif protocol == 'udp':
+            addFeaturesToDict(ipFeaturesTemp, clientorserver + 'DictClassBnetworksUDPEstablished', classB, 1)
+            addFeaturesToDict(ipFeaturesTemp, clientorserver + 'DictOfConnectionsUDPEstablished', ipTarget, 1)
 
         fillDataToPortFeatures(clientorserver,protocol,ipFeaturesTemp,dstPort,ipTarget,sourcePort,totBytes,totalPakets,lineDict,'Established')
     elif (detectConnectionAttemptWithNoAnswer (connectionInformationState)):
@@ -176,6 +180,14 @@ def addFeaturesForIP(clientorserver,ipDict,ipTarget,lineDict,dur,protocol,source
                               whoiscache.get_organization_of_ip(ipTarget), 1)
         addFeaturesToDict(ipFeaturesTemp, clientorserver +'DictClassBnetworksNotEstablished', classB, 1)
         addFeaturesToDict (ipFeaturesTemp, clientorserver + 'DictOfConnectionsNotEstablished', ipTarget, 1)
+
+        if protocol == 'tcp':
+            addFeaturesToDict(ipFeaturesTemp, clientorserver + 'DictClassBnetworksTCPNotEstablished', classB, 1)
+            addFeaturesToDict(ipFeaturesTemp, clientorserver + 'DictOfConnectionsTCPNotEstablished', ipTarget, 1)
+        elif protocol == 'udp':
+            addFeaturesToDict(ipFeaturesTemp, clientorserver + 'DictClassBnetworksUDPNotEstablished', classB, 1)
+            addFeaturesToDict(ipFeaturesTemp, clientorserver + 'DictOfConnectionsUDPNotEstablished', ipTarget, 1)
+
         fillDataToPortFeatures(clientorserver,protocol,ipFeaturesTemp,dstPort,ipTarget,sourcePort,totBytes,totalPakets,lineDict,'NotEstablished')
         #TODO Check log of not used lines that should be catched by this
 
