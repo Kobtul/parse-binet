@@ -11,11 +11,11 @@ argus -r pcapfile -F argus_bi.conf -w file.biargus
 ```
 once we have the biargus file, we can use ra to obtain the flows, like this
 ```
-ra -Z b -n -r file.biargus -F ra.conf.publish > file.binetflow
+ra -Z b -n -r file.biargus -F ra.conf > file.binetflow
 ```
 if we want to specify hosts that will be in the binetflow, we can use this variant:
 ```
-ra -Z b -n -r file.biargus -F ra.conf.publish - "host A or host B or ...." > file.binetflow
+ra -Z b -n -r file.biargus -F ra.conf - "host A or host B or ...." > file.binetflow
 
 ```
 
