@@ -6,6 +6,7 @@ import signal
 import sys
 from fileToAnalyze import BINETFLOW, COMPUTERSTOANALYZER
 from WhoisCache import RadpCache
+from unmaskip import ipv4_range
 
 #from aenum import Enum
 
@@ -378,9 +379,35 @@ def signal_handler(signal, frame):
             json.dump (whoiscache.get_country_cache (), fp, default=dumper, indent=2)
         print('Exiting now!')
     sys.exit(0)
+def generate_profile_from_file(binetflow_file,ips):
+    global result
+    result = {}
+    load_whois_cache_from_file()
+    expanded_ips = expand_masks_in_ips(ips)
+    intializeComputersToAnalyze(expanded_ips)
+    global BINETFLOW
+    BINETFLOW = binetflow_file
+    print('aabbbcc')
+    gatherData()
+    if SAVECACHE:
+        save_whois_cache_to_file()
+    return result
+
+def expand_masks_in_ips(ips):
+    new_ips = []
+    for ipormask in ips:
+        if '\/' in ipormask:
+            unmaskedips = ipv4_range(ipormask)
+            for ip in unmaskedips:
+                new_ips.append(ip)
+        else:
+            new_ips.append(ipormask)
+
+    return new_ips
 
 def generate_profile_from_weblogs(weblogs,ips):
-
+    global result
+    result = {}
     load_whois_cache_from_file()
     intializeComputersToAnalyze(ips)
     lastHourID = ""
