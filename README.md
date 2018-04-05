@@ -20,7 +20,7 @@ ra -Z b -n -r file.biargus -F ra.conf - "host A or host B or ...." > file.binetf
 ```
 
 ## Profiles generation
-To run the dataGather.py script you need to have file fileToAnalyze.py that contains:
+To run the dataGather.py script you need to specify these two global variables:
 ```
 COMPUTERSTOANALYZER = 'adress of the file with computers to analyze'
 BINETFLOW = 'adress to binetflows'

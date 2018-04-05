@@ -1,21 +1,12 @@
 import json
-# from json import dumps, loads, JSONEncoder, JSONDecoder
 import signal
-# import pandas
-# import ipwhois
 import sys
-from fileToAnalyze import BINETFLOW, COMPUTERSTOANALYZER
+#from fileToAnalyze import BINETFLOW, COMPUTERSTOANALYZER
 from WhoisCache import RadpCache
 from unmaskip import ipv4_range
 
-#from aenum import Enum
-
-# import pickle
-# import jsonpickle
-
-import copy
-
-
+BINETFLOW=''
+COMPUTERSTOANALYZER=''
 SAVECACHE = False
 USEWHOISDATA = False
 
