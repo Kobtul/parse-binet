@@ -107,7 +107,8 @@ def processLine(lineDict, lastTimeID):
     dataHourID = time.split ()[1].split (':')[0]
     actualDataId = dataDateID + " " + dataHourID
     if (actualDataId != lastTimeID):
-        print(dataHourID)
+        inthour = int(dataHourID)
+        print('[+] Processing from Hour {}:00hs to Hour {}:00hs'.format(inthour,inthour+1))
         timeIDSInCapture.append (dataHourID)
         fillFeaturesClassFromTempClass (lastTimeID)
         for ip in temp:
@@ -191,7 +192,8 @@ def addFeaturesForIP(clientorserver,ipDict,ipTarget,lineDict,dur,protocol,source
         else:
             ipFeaturesTemp[clientorserver + 'PAPAconectionsEstablished'][ipTarget]=1
     else:
-        print (convertDictToLine(lineDict))
+        pass
+        #print (convertDictToLine(lineDict))
 
     ipFeaturesTemp['hoursummary']['numberOfIPFlows'] = ipFeaturesTemp['hoursummary']['numberOfIPFlows'] + 1
 def unusedSnippedsOfCode():
@@ -373,12 +375,12 @@ def signal_handler(signal, frame):
 def generate_profile_from_file(binetflow_file,ips):
     global result
     result = {}
-    load_whois_cache_from_file()
+    if(USEWHOISDATA):
+        load_whois_cache_from_file()
     expanded_ips = expand_masks_in_ips(ips)
     intializeComputersToAnalyze(expanded_ips)
     global BINETFLOW
     BINETFLOW = binetflow_file
-    print('aabbbcc')
     gatherData()
     if SAVECACHE:
         save_whois_cache_to_file()
@@ -419,7 +421,7 @@ def load_whois_cache_from_file():
         with open('whoiscahce.json') as data_file:
             whoiscache.whois_cache = json.load(data_file)
     except IOError:
-        print('whoiscahce not found')
+        print('Whois cache not found')
 if __name__ == "__main__":
     #TODO Add option to load whois data on the background to speed the creation of the profile
     #TODO Add branch for devel
